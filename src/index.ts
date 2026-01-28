@@ -7,6 +7,9 @@ import swaggerUi from "swagger-ui-express";
 import {specs} from "./config/swagger.js";
 import dotenv from "dotenv";
 
+import pasteroutes from "./routes/pasteroutes.js";
+import { viewPaste } from "./controllers/past.controllers.js";
+
 dotenv.config();
 
 const app=express();
@@ -20,11 +23,13 @@ app.use(morganMiddleware);
 
 
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(specs))
-
+app.use("/api",pasteroutes);
+// Public HTML view endpoint at root level
+app.get("/p/:id", viewPaste);
 
 const server=app.listen(PORT,()=>{
     Logger.info(`server is running on port ${PORT}, 
-        environment: ${process.env.NODE_ENV}, timestamp: 
+        environment: ${process.env.PORT}, timestamp: 
         ${new Date().toISOString()}`);
 })
 
