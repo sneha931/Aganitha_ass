@@ -13,7 +13,7 @@ import { viewPaste } from "./controllers/past.controllers.js";
 dotenv.config();
 
 const app=express();
-const PORT=process.env.PORT;
+const port=process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -27,11 +27,11 @@ app.use("/api",pasteroutes);
 // Public HTML view endpoint at root level
 app.get("/p/:id", viewPaste);
 
-const server=app.listen(PORT,()=>{
-    Logger.info(`server is running on port ${PORT}, 
-        environment: ${process.env.PORT}, timestamp: 
-        ${new Date().toISOString()}`);
-})
+const server = app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Server started successfully on port ${port}`);
+});
 
-export {server,app};
+export { app, server };
+export default app;
 
